@@ -4,76 +4,190 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <string>
 using namespace std;
 
-class Generator;
 
 class Character {
 private:
 
-    int hitpoints;
-    int armorClass;
+    string name;
+    string playerClass;
+    
+    int level = 0;
 
-    int constitution;
-    int constitutionModifier;
+    int hitPoints = 0;
+    int armorClass = 0;
 
-    int strenght;
-    int strenghtModifier;
+    int constitution = 0;
+    int constitutionModifier = 0;
 
-    int dexterity;
-    int dexterityModifier;
+    int strenght = 0;
+    int strenghtModifier = 0;
 
-    int intelligence;
-    int intelligenceModifier;
+    int dexterity = 0;
+    int dexterityModifier = 0;
+
+    int intelligence = 0;
+    int intelligenceModifier = 0;
+
+    int wisdom = 0;
+    int wisdomModifier = 0;
+
+    int charisma = 0;
+    int charismaModifier = 0;
 
 
 public:
-
-    //Конструктор
-
-
-    //ф-ии:
-    //ходить влево
-    //ходить вправо
-
-    //Сеттеры
-    void setConstitution(const Generator &generatedValue) {
-        constitution = generatedValue.getValue();
-    }
-    void setDexterity(const Generator &generatedValue) {
-        dexterity = generatedValue.getValue();
-    }
-    void setIntelligence(const Generator &generatedValue) {
-        intelligence = generatedValue.getValue();
-    }
-    void setArmorCalss() {
-        armorClass = 10 + dexterityModifier;
-    }
-    void setModifiers() {
-        constitutionModifier = round((constitution - 10) / 2);
-        strenghtModifier = round((strenght - 10) / 2);
-        intelligenceModifier = round((intelligence - 10) / 2);
+    //сеттеры
+    void setName(string userString) {
+        getline(cin, userString);
+        name = userString;
     }
 
-    //Геттеры
-    /*int getConstitution(){
+    void setClass(string userString) {
+        getline(cin, userString);
+        playerClass = userString;
+    }
+
+    void setLevel(string userString) {
+        getline(cin, userString);
+        level = stoi(userString);
+    }
+
+    //void setHitPoints(){}
+
+    //void setArmorClass(){}
+
+    void setConstitution(string userString) {
+        getline(cin, userString);
+        constitution = stoi(userString);
+    }
+
+    //void setConstitutionModifier(){}
+
+    void setStrenght(string userString) {
+        getline(cin, userString);
+        strenght = stoi(userString);
+    }
+
+    //void setStrenghtModifier(){}
+
+    void setDexterity(string userString) {
+        getline(cin, userString);
+        dexterity = stoi(userString);
+    }
+
+    //void setDexterityModifier(){}
+
+    void setIntelligence(string userString) {
+        getline(cin, userString);
+        intelligence = stoi(userString);
+    }
+
+    //void setIntelligenceModifier(){}
+
+    void setWisdom(string userString) {
+        getline(cin, userString);
+        wisdom = stoi(userString);
+    }
+
+    //void setWisdomModifier() {}
+
+    void setCharisma(string userString) {
+        getline(cin, userString);
+        charisma = stoi(userString);
+    }
+
+    //void setCharismaModifier() {}
+
+    //геттеры
+    string getName() {
+        return name;
+    }
+
+    string getClass() {
+        return playerClass;
+    }
+
+    int getLevel() {
+        return level;
+    }
+
+    int getHitPoints() {
+        return hitPoints;
+    }
+
+    int getArmorClass() {
+        return armorClass;
+    }
+
+    int getConstitution() {
         return constitution;
     }
+
     int getConstitutionModifier() {
         return constitutionModifier;
-    }*/
-
-    //Персонаж напечатайся
-    void printCharacter() {
-        cout << "Сила: " << strenght << " " << "Модификатор: " << strenghtModifier << endl;
-        cout << "Ловкость: " << dexterity << " " << "Модификатор: " << dexterityModifier << endl;
-        cout << "Интеллект: " << intelligence << " " << "Модификатор: " << intelligenceModifier << endl;
-        cout << "Класс доспеха: " << armorClass << endl;
-        cout << "Здоровье: " << hitpoints << endl;
     }
+
+    int getStrenght() {
+        return strenght;
+    }
+
+    int getStrenghtModifier() {
+        return strenghtModifier;
+    }
+
+    int getDexterity() {
+        return dexterity;
+    }
+
+    int getDexterityModifier() {
+        return dexterityModifier;
+    }
+
+    int getIntelligence() {
+        return intelligence;
+    }
+
+    int getIntelligenceModifier() {
+        return intelligenceModifier;
+    }
+
+    int getWisdom() {
+        return wisdom;
+    }
+
+    int getWisdomModifier() {
+        return wisdomModifier;
+    }
+
+    int getCharisma() {
+        return charisma;
+    }
+
+    int getCharismaModifier() {
+        return charismaModifier;
+    }
+
+    //Показать
+    void printCharacter() {
+        cout << "Имя: " << name << endl;
+        cout << "Класс: " << playerClass << endl;
+        cout << "Уровень: " << level << endl;
+        cout << "Телосложение: " << constitution << endl;
+        cout << "Сила: " << strenght << endl;
+        cout << "Ловкость: " << dexterity << endl;
+        cout << "Интеллект: " << intelligence << endl;
+        cout << "Мудрость: " << wisdom << endl;
+        cout << "Харизма: " << charisma << endl;
+    }
+    
     
 };
 
+
+//Генератор
 class Generator {
 private:
 
@@ -132,8 +246,63 @@ int main()
     SetConsoleOutputCP(1251);
     srand(time(NULL));
 
-    Character first{};
-    Generator roll;
+    const int SIZE = 9;
+    string userString;
+    string stats[SIZE] = {
+        "Введите имя: ",
+        "Введите класс: ",
+        "Введите уровень: ",
+        "Введите показатель телосложения: ",
+        "Введите показатель силы: ",
+        "Введите показатель ловкости :",
+        "Введите показатель интеллекта: ",
+        "Введите показатель мудрости :",
+        "Введите показатель харизмы: "
+    };
+
+    Character first;
+
+    cout << "Перенесите сгенерированного персонажа сюда" << endl;
+
+    for (int i = 0; i < SIZE; i++) {
+        cout << stats[i];
+        if (i == 0) {
+            first.setName(userString);
+        }
+        if (i == 1) {
+            first.setClass(userString);
+        }
+        if (i == 2) {
+            first.setLevel(userString);
+        }
+        if (i == 3) {
+            first.setConstitution(userString);
+        }
+        if (i == 4) {
+            first.setStrenght(userString);
+        }
+        if (i == 5) {
+            first.setDexterity(userString);
+        }
+        if (i == 6) {
+            first.setIntelligence(userString);
+        }
+        if (i == 7) {
+            first.setWisdom(userString);
+        }
+        if (i == 8) {
+            first.setCharisma(userString);
+        }
+    }
+
+    cout << endl << endl;
+    first.printCharacter();
+
+
+    
+
+
+
 
     
 
