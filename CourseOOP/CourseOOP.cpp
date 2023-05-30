@@ -15,6 +15,7 @@ private:
     string playerClass;
     
     int level = 0;
+    int proficiencyBonus = 0;
 
     int hitPoints = 0;
     int armorClass = 0;
@@ -39,6 +40,33 @@ private:
 
 
 public:
+
+    //Тут будут конструкторы
+    // 
+    //этот конструктор собрала мне VS
+    /*Character(const string& name, const string& playerClass, int level, int proficiencyBonus, int hitPoints, int armorClass,
+        int constitution, int constitutionModifier, int strenght, int strenghtModifier, int dexterity, int dexterityModifier, int intelligence,
+        int intelligenceModifier, int wisdom, int wisdomModifier, int charisma, int charismaModifier)
+        : name(name),
+        playerClass(playerClass),
+        level(level), proficiencyBonus(proficiencyBonus),
+        hitPoints(hitPoints), armorClass(armorClass),
+        constitution(constitution),
+        constitutionModifier(constitutionModifier),
+        strenght(strenght),
+        strenghtModifier(strenghtModifier),
+        dexterity(dexterity),
+        dexterityModifier(dexterityModifier),
+        intelligence(intelligence),
+        intelligenceModifier(intelligenceModifier),
+        wisdom(wisdom),
+        wisdomModifier(wisdomModifier),
+        charisma(charisma),
+        charismaModifier(charismaModifier)
+    {
+    }*/
+
+
     //сеттеры
     void setName(string userString) {
         getline(cin, userString);
@@ -53,6 +81,30 @@ public:
     void setLevel(string userString) {
         getline(cin, userString);
         level = stoi(userString);
+        if (level > 20 or level < 1) {
+            cout << "Недопустимое значение уровня";
+        }
+    }
+
+    void setProficiencyBonus(int getLevel()) { //Не может поставить значение. Нужен конструктор
+        if (level == 1 && level <= 4) {        //проблема у всех похожих методов
+            proficiencyBonus = 2;
+        }
+        else if (level == 5 && level <= 8) {
+            proficiencyBonus = 3;
+        }
+        else if (level == 9 && level <= 12) {
+            proficiencyBonus = 4;
+        }
+        else if (level == 13 && level <= 16) {
+            proficiencyBonus = 5;
+        }
+        else if (level == 17 && level <= 20) {
+            proficiencyBonus = 6;
+        }
+        else {
+            cout << "Уровень выше 20 быть не может";
+        }
     }
 
     //void setHitPoints(){}
@@ -64,42 +116,54 @@ public:
         constitution = stoi(userString);
     }
 
-    //void setConstitutionModifier(){}
+    void setConstitutionModifier(int getConstitution()) {
+        constitutionModifier = floor((constitution - 10) / 2);
+    }
 
     void setStrenght(string userString) {
         getline(cin, userString);
         strenght = stoi(userString);
     }
 
-    //void setStrenghtModifier(){}
+    void setStrenghtModifier(int getStrenght()) {
+        strenghtModifier = floor((strenght - 10) / 2);
+    }
 
     void setDexterity(string userString) {
         getline(cin, userString);
         dexterity = stoi(userString);
     }
 
-    //void setDexterityModifier(){}
+    void setDexterityModifier(int getDexterity()) {
+        dexterityModifier = floor((dexterity - 10) / 2);
+    }
 
     void setIntelligence(string userString) {
         getline(cin, userString);
         intelligence = stoi(userString);
     }
 
-    //void setIntelligenceModifier(){}
+    void setIntelligenceModifier(int getIntelligence()) {
+        intelligenceModifier = floor((intelligence - 10) / 2);
+    }
 
     void setWisdom(string userString) {
         getline(cin, userString);
         wisdom = stoi(userString);
     }
 
-    //void setWisdomModifier() {}
+    void setWisdomModifier(int getWisdom()) {
+        wisdomModifier = floor((wisdom - 10) / 2);
+    }
 
     void setCharisma(string userString) {
         getline(cin, userString);
         charisma = stoi(userString);
     }
 
-    //void setCharismaModifier() {}
+    void setCharismaModifier(int getCharisma) {
+        charismaModifier = floor((charisma - 10) / 2);
+    }
 
     //геттеры
     string getName() {
@@ -112,6 +176,10 @@ public:
 
     int getLevel() {
         return level;
+    }
+
+    int getProficiencyBonus() {
+        return proficiencyBonus;
     }
 
     int getHitPoints() {
@@ -175,15 +243,14 @@ public:
         cout << "Имя: " << name << endl;
         cout << "Класс: " << playerClass << endl;
         cout << "Уровень: " << level << endl;
-        cout << "Телосложение: " << constitution << endl;
-        cout << "Сила: " << strenght << endl;
-        cout << "Ловкость: " << dexterity << endl;
-        cout << "Интеллект: " << intelligence << endl;
-        cout << "Мудрость: " << wisdom << endl;
-        cout << "Харизма: " << charisma << endl;
+        cout << "Бонус мастрества: " << "+" << proficiencyBonus << endl;
+        cout << "Телосложение: " << constitution << " " << "Модификатор: " << constitutionModifier << endl;
+        cout << "Сила: " << strenght << " " << "Модификатор: " << strenghtModifier << endl;
+        cout << "Ловкость: " << dexterity << " " << "Модификатор: " << dexterityModifier << endl;
+        cout << "Интеллект: " << intelligence << " " << "Модификатор: " << intelligenceModifier << endl;
+        cout << "Мудрость: " << wisdom << " " << "Модификатор: " << wisdomModifier << endl;
+        cout << "Харизма: " << charisma << " " << "Модификатор: " << charismaModifier << endl;
     }
-    
-    
 };
 
 
@@ -254,7 +321,7 @@ int main()
         "Введите уровень: ",
         "Введите показатель телосложения: ",
         "Введите показатель силы: ",
-        "Введите показатель ловкости :",
+        "Введите показатель ловкости : ",
         "Введите показатель интеллекта: ",
         "Введите показатель мудрости :",
         "Введите показатель харизмы: "
