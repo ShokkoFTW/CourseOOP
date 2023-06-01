@@ -13,8 +13,9 @@ private:
 
     string name;
     string playerClass;
-    
+
     int level = 0;
+    int proficiencyBonus = 0;
 
     int hitPoints = 0;
     int armorClass = 0;
@@ -39,6 +40,94 @@ private:
 
 
 public:
+
+    //Тут будут конструкторы
+    // 
+    //этот конструктор собрала мне VS
+    /*Character(const string& name, const string& playerClass, int level, int proficiencyBonus, int hitPoints, int armorClass,
+        int constitution, int constitutionModifier, int strenght, int strenghtModifier, int dexterity, int dexterityModifier, int intelligence,
+        int intelligenceModifier, int wisdom, int wisdomModifier, int charisma, int charismaModifier)
+        : name(name),
+        playerClass(playerClass),
+        level(level), proficiencyBonus(proficiencyBonus),
+        hitPoints(hitPoints), armorClass(armorClass),
+        constitution(constitution),
+        constitutionModifier(constitutionModifier),
+        strenght(strenght),
+        strenghtModifier(strenghtModifier),
+        dexterity(dexterity),
+        dexterityModifier(dexterityModifier),
+        intelligence(intelligence),
+        intelligenceModifier(intelligenceModifier),
+        wisdom(wisdom),
+        wisdomModifier(wisdomModifier),
+        charisma(charisma),
+        charismaModifier(charismaModifier)
+    {
+    }*/
+
+    //Конструктор для сбора персонажа пользователем вручную, без генерации
+    //Подразумевается, что персонаж уже сгенерирован
+    Character() {
+        const int SIZE = 9;
+        string userString;
+        string stats[SIZE] = {
+            "Введите имя: ",
+            "Введите класс: ",
+            "Введите уровень: ",
+            "Введите показатель телосложения: ",
+            "Введите показатель силы: ",
+            "Введите показатель ловкости : ",
+            "Введите показатель интеллекта: ",
+            "Введите показатель мудрости: ",
+            "Введите показатель харизмы: "
+        };
+
+        cout << "Перенесите сгенерированного персонажа сюда" << endl;
+
+        for (int i = 0; i < SIZE; i++) {
+            cout << stats[i];
+            if (i == 0) {
+                setName(userString);
+            }
+            if (i == 1) {
+                setClass(userString);
+            }
+            if (i == 2) {
+                setLevel(userString);
+            }
+            if (i == 3) {
+                setConstitution(userString);
+            }
+            if (i == 4) {
+                setStrenght(userString);
+            }
+            if (i == 5) {
+                setDexterity(userString);
+            }
+            if (i == 6) {
+                setIntelligence(userString);
+            }
+            if (i == 7) {
+                setWisdom(userString);
+            }
+            if (i == 8) {
+                setCharisma(userString);
+            }
+        }
+
+        setProficiencyBonus(level);
+
+        setConstitutionModifier(constitution);
+        setStrenghtModifier(strenght);
+        setDexterityModifier(dexterity);
+        setIntelligenceModifier(intelligence);
+        setWisdomModifier(wisdom);
+        setCharismaModifier(charisma);
+
+    }
+
+
     //сеттеры
     void setName(string userString) {
         getline(cin, userString);
@@ -53,6 +142,30 @@ public:
     void setLevel(string userString) {
         getline(cin, userString);
         level = stoi(userString);
+        if (level > 20 or level < 1) {
+            cout << "Недопустимое значение уровня";
+        }
+    }
+
+    void setProficiencyBonus(int level) {
+        if (level == 1 && level <= 4) {
+            proficiencyBonus = 2;
+        }
+        else if (level == 5 && level <= 8) {
+            proficiencyBonus = 3;
+        }
+        else if (level == 9 && level <= 12) {
+            proficiencyBonus = 4;
+        }
+        else if (level == 13 && level <= 16) {
+            proficiencyBonus = 5;
+        }
+        else if (level == 17 && level <= 20) {
+            proficiencyBonus = 6;
+        }
+        else {
+            cout << "Уровень выше 20 быть не может";
+        }
     }
 
     //void setHitPoints(){}
@@ -64,42 +177,54 @@ public:
         constitution = stoi(userString);
     }
 
-    //void setConstitutionModifier(){}
+    void setConstitutionModifier(int constitution) {
+        constitutionModifier = floor((constitution - 10) / 2);
+    }
 
     void setStrenght(string userString) {
         getline(cin, userString);
         strenght = stoi(userString);
     }
 
-    //void setStrenghtModifier(){}
+    void setStrenghtModifier(int strenght) {
+        strenghtModifier = floor((strenght - 10) / 2);
+    }
 
     void setDexterity(string userString) {
         getline(cin, userString);
         dexterity = stoi(userString);
     }
 
-    //void setDexterityModifier(){}
+    void setDexterityModifier(int dexterity) {
+        dexterityModifier = floor((dexterity - 10) / 2);
+    }
 
     void setIntelligence(string userString) {
         getline(cin, userString);
         intelligence = stoi(userString);
     }
 
-    //void setIntelligenceModifier(){}
+    void setIntelligenceModifier(int intelligence) {
+        intelligenceModifier = floor((intelligence - 10) / 2);
+    }
 
     void setWisdom(string userString) {
         getline(cin, userString);
         wisdom = stoi(userString);
     }
 
-    //void setWisdomModifier() {}
+    void setWisdomModifier(int wisdom) {
+        wisdomModifier = floor((wisdom - 10) / 2);
+    }
 
     void setCharisma(string userString) {
         getline(cin, userString);
         charisma = stoi(userString);
     }
 
-    //void setCharismaModifier() {}
+    void setCharismaModifier(int charisma) {
+        charismaModifier = floor((charisma - 10) / 2);
+    }
 
     //геттеры
     string getName() {
@@ -112,6 +237,10 @@ public:
 
     int getLevel() {
         return level;
+    }
+
+    int getProficiencyBonus() {
+        return proficiencyBonus;
     }
 
     int getHitPoints() {
@@ -175,15 +304,15 @@ public:
         cout << "Имя: " << name << endl;
         cout << "Класс: " << playerClass << endl;
         cout << "Уровень: " << level << endl;
-        cout << "Телосложение: " << constitution << endl;
-        cout << "Сила: " << strenght << endl;
-        cout << "Ловкость: " << dexterity << endl;
-        cout << "Интеллект: " << intelligence << endl;
-        cout << "Мудрость: " << wisdom << endl;
-        cout << "Харизма: " << charisma << endl;
+        cout << "Бонус мастрества: " << proficiencyBonus << endl;
+        cout << "Телосложение: " << constitution << " " << "Модификатор: " << constitutionModifier << endl;
+        cout << "Сила: " << strenght << " " << "Модификатор: " << strenghtModifier << endl;
+        cout << "Ловкость: " << dexterity << " " << "Модификатор: " << dexterityModifier << endl;
+        cout << "Интеллект: " << intelligence << " " << "Модификатор: " << intelligenceModifier << endl;
+        cout << "Мудрость: " << wisdom << " " << "Модификатор: " << wisdomModifier << endl;
+        cout << "Харизма: " << charisma << " " << "Модификатор: " << charismaModifier << endl;
     }
-    
-    
+
 };
 
 
@@ -246,65 +375,20 @@ int main()
     SetConsoleOutputCP(1251);
     srand(time(NULL));
 
-    const int SIZE = 9;
-    string userString;
-    string stats[SIZE] = {
-        "Введите имя: ",
-        "Введите класс: ",
-        "Введите уровень: ",
-        "Введите показатель телосложения: ",
-        "Введите показатель силы: ",
-        "Введите показатель ловкости :",
-        "Введите показатель интеллекта: ",
-        "Введите показатель мудрости :",
-        "Введите показатель харизмы: "
-    };
+
 
     Character first;
 
-    cout << "Перенесите сгенерированного персонажа сюда" << endl;
 
-    for (int i = 0; i < SIZE; i++) {
-        cout << stats[i];
-        if (i == 0) {
-            first.setName(userString);
-        }
-        if (i == 1) {
-            first.setClass(userString);
-        }
-        if (i == 2) {
-            first.setLevel(userString);
-        }
-        if (i == 3) {
-            first.setConstitution(userString);
-        }
-        if (i == 4) {
-            first.setStrenght(userString);
-        }
-        if (i == 5) {
-            first.setDexterity(userString);
-        }
-        if (i == 6) {
-            first.setIntelligence(userString);
-        }
-        if (i == 7) {
-            first.setWisdom(userString);
-        }
-        if (i == 8) {
-            first.setCharisma(userString);
-        }
-    }
-
-    cout << endl << endl;
     first.printCharacter();
 
 
-    
 
 
 
 
-    
+
+
 
 }
 
